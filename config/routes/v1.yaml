@@ -1,0 +1,6 @@
+app.calculate_price:
+    path: /calculate-price
+    defaults: {
+        _controller: app.v1.controller.calculate_price::index
+    }
+    methods: [ POST ]

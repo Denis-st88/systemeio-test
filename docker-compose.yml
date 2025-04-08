@@ -1,13 +1,37 @@
 services:
-    sio_test:
-        user: app
-        build:
-            context: .
-            args:
-                USER_ID: ${USER_ID:-1000}
-        ports:
-            - "8337:8337"
-        volumes:
-            - .:/app:rw
-        environment:
-            - APP_ENV=dev
+  sio_test:
+    user: app
+    build:
+      context: .
+      args:
+        USER_ID: ${USER_ID:-1000}
+    ports:
+      - "8337:8337"
+    volumes:
+      - .:/app:rw
+    environment:
+      - APP_ENV=dev
+    depends_on:
+      - postgresql
+    networks:
+      - sio
+
+  postgresql:
+    image: postgres:17.4
+    environment:
+      POSTGRES_DB: ${DB_NAME}
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    volumes:
+      - sio_postgresql_volume:/var/lib/pgsql
+    ports:
+      - 5432:5432
+    networks:
+      - sio
+
+networks:
+  sio:
+
+volumes:
+  sio_postgresql_volume:
+    driver: local

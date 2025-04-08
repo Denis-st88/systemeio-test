@@ -1,0 +1,7 @@
+services:
+  app.v1.calculate_price.http_to_api_request_transformer:
+    class: App\V1\Api\Request\HttpRequestTransformer
+    arguments:
+      - '@serializer'
+      - 'App\V1\Api\Request\Product\Calculate\ApiRequest'
+      - 'json'

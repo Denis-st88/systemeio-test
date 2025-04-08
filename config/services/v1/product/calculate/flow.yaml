@@ -1,0 +1,12 @@
+services:
+  app.v1.calculate_price.flow:
+    class: App\Common\Flow\Flow
+    arguments:
+      - '@app.v1.calculate_price.process'
+
+  app.v1.calculate_price.process:
+    class: League\Pipeline\Pipeline
+    arguments:
+      - ~
+      - '@app.v1.stages.calculate_price.transform_http_request_to_api_request'
+      - '@app.v1.stages.calculate_price.do_calculate'

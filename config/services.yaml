@@ -1,0 +1,20 @@
+imports:
+  - { resource: services/*.yaml }
+  - { resource: services/*/*.yaml }
+  - { resource: services/*/*/*.yaml }
+  - { resource: services/*/*/*/*.yaml }
+
+parameters:
+    db.app.dsn: 'postgresql://%env(DB_USER)%:%env(DB_PASSWORD)%@%env(DB_HOST)%:%env(DB_PORT)%/%env(DB_NAME)%'
+
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+
+    App\:
+        resource: '../src/'
+        exclude:
+            - '../src/DependencyInjection/'
+            - '../src/V1/Domain'
+            - '../src/Kernel.php'

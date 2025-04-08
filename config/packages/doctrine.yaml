@@ -1,0 +1,29 @@
+doctrine:
+  dbal:
+    default_connection: sio
+    connections:
+      sio:
+        logging: false
+        profiling: false
+        driver: pdo_pgsql
+        charset: UTF8
+        server_version: '17.4'
+        default_table_options:
+            charset: utf8mb4
+            collate: utf8mb4_unicode_ci
+        url: '%db.app.dsn%'
+    types:
+        uuid: Symfony\Bridge\Doctrine\Types\UuidType
+  orm:
+    auto_generate_proxy_classes: '%kernel.debug%'
+    entity_managers:
+      default:
+        mappings:
+          app.v1:
+            mapping: true
+            type: attribute
+            dir: '%kernel.project_dir%/src/V1/Domain'
+            alias: ~
+            prefix: App\V1\Domain
+            is_bundle: false
+        naming_strategy: doctrine.orm.naming_strategy.underscore_number_aware

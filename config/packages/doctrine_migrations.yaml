@@ -1,0 +1,5 @@
+doctrine_migrations:
+    connection: sio
+    enable_profiler: false
+    migrations_paths:
+        'App\DoctrineMigrations': 'migrations'
