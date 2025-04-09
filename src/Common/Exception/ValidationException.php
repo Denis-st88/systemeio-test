@@ -12,7 +12,7 @@ class ValidationException extends \Exception
     private array $errors;
 
     public function __construct(
-        string $message = '',
+        string $message = 'Validation failed',
         int $code = 0,
         ?\Throwable $previous = null
     ) {

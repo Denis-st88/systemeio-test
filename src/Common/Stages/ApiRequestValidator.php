@@ -34,7 +34,7 @@ readonly class ApiRequestValidator implements StageInterface
                 ];
             }
 
-            throw (new ValidationException('Validation failed'))->setErrors($errors);
+            throw (new ValidationException())->setErrors($errors);
         }
 
         return $apiRequest;
