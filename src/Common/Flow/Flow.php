@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Common\Flow;
 
-use App\Common\Response\ResponseInterface;
 use League\Pipeline\PipelineInterface;
 use Symfony\Component\HttpFoundation\Request as HttpRequest;
+use Symfony\Component\HttpFoundation\Response as HttpResponse;
 
 readonly class Flow implements FlowInterface
 {
@@ -14,7 +14,7 @@ readonly class Flow implements FlowInterface
     {
     }
 
-    public function process(HttpRequest $httpRequest): ResponseInterface
+    public function process(HttpRequest $httpRequest): HttpResponse
     {
         return ($this->transitions)($httpRequest);
     }

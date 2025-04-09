@@ -6,3 +6,7 @@ services:
 
   app.v1.stages.calculate_price.do_calculate:
     class: App\V1\Api\Stages\Product\Calculate\Calculate
+    arguments:
+      - '@App\V1\Domain\Repository\TaxRulesRepositoryInterface'
+      - '@App\V1\Domain\Repository\CouponRepositoryInterface'
+      - '@App\V1\Domain\Repository\ProductRepositoryInterface'

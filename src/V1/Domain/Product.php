@@ -22,7 +22,7 @@ class Product
         unique: true,
         nullable: false
     )]
-    private int $name;
+    private string $name;
 
     #[ORM\Column(
         name: 'price',
@@ -43,12 +43,12 @@ class Product
         return $this;
     }
 
-    public function getName(): int
+    public function getName(): string
     {
         return $this->name;
     }
 
-    public function setName(int $name): self
+    public function setName(string $name): self
     {
         $this->name = $name;
 

@@ -9,5 +9,5 @@ use Doctrine\Persistence\ObjectRepository;
 
 interface TaxRulesRepositoryInterface extends ObjectRepository
 {
-    public function getTaxRulesByCountryCode(string $countryCode): ?TaxRules;
+    public function getTaxRulesByCountryCode(string $countryCode): TaxRules;
 }

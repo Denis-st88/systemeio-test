@@ -1,4 +1,15 @@
 services:
+  # Product
+  App\V1\Domain\Repository\ProductRepositoryInterface:
+    alias: App\V1\Infr\Repository\ProductRepository
+
+  App\V1\Infr\Repository\ProductRepository:
+    arguments:
+      - '@Doctrine\Common\Persistence\ManagerRegistry'
+      - 'App\V1\Domain\Product'
+    tags: [ 'doctrine.repository_service' ]
+
+  # TaxRules
   App\V1\Domain\Repository\TaxRulesRepositoryInterface:
     alias: App\V1\Infr\Repository\TaxRulesRepository
 
@@ -6,4 +17,14 @@ services:
     arguments:
       - '@Doctrine\Common\Persistence\ManagerRegistry'
       - 'App\V1\Domain\TaxRules'
+    tags: [ 'doctrine.repository_service' ]
+
+  # Coupon
+  App\V1\Domain\Repository\CouponRepositoryInterface:
+    alias: App\V1\Infr\Repository\CouponRepository
+
+  App\V1\Infr\Repository\CouponRepository:
+    arguments:
+      - '@Doctrine\Common\Persistence\ManagerRegistry'
+      - 'App\V1\Domain\Coupon'
     tags: [ 'doctrine.repository_service' ]

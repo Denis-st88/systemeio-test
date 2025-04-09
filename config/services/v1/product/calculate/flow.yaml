@@ -9,5 +9,6 @@ services:
     arguments:
       - ~
       - '@app.v1.stages.calculate_price.transform_http_request_to_api_request'
-      - '@app.v1.common.validate_api_request'
+      - '@app.v1.stages.common.validate_api_request'
       - '@app.v1.stages.calculate_price.do_calculate'
+      - '@app.v1.stages.common.make_http_response'

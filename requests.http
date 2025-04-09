@@ -1,5 +1,5 @@
 ### Calculate Price
-POST http://127.0.0.1:8337/calculate-price
+POST http://127.0.0.1:8337/api/v1/calculate-price
 Accept: application/json
 Content-Type: application/json
 
@@ -9,21 +9,44 @@ Content-Type: application/json
   "couponCode": "D15"
 }
 
-### Response 400
-Content-Type: application/json
+### Expected 200 OK
+# Example response:
+# {
+#   "price": 100
+# }
 
-{
-  "error": "Validation failed",
-  "details": [
-    {
-      "field": "Here will be field name",
-      "message": "Here will be error message"
-    }
-  ]
-}
+###
+
+### Response 400
+# Example response:
+# HTTP/1.1 400 Bad Request
+# Content-Type: application/json
+#
+# {
+#   "error": "Validation failed",
+#   "details": [
+#     {
+#       "field": "taxNumber",
+#       "message": "Invalid tax number format"
+#     }
+#   ]
+# }
+
+###
+
+### Response 404
+# Example response:
+# HTTP/1.1 404 Not Found
+# Content-Type: application/json
+#
+# {
+#   "message": "Product entity id \"1\" not found."
+# }
+
+###
 
 ### Execute Purchase
-POST http://127.0.0.1:8337/purchase
+POST http://127.0.0.1:8337/api/v1/purchase
 Accept: application/json
 Content-Type: application/json
 

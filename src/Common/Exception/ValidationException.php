@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Common\Exception;
 
-class ValidationException extends \Exception
+class ValidationException extends \Exception implements ValidationExceptionInterface
 {
     /**
      * @var array<string, string>
