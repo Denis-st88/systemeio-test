@@ -1,0 +1,5 @@
+services:
+  app.v1.common.validate_api_request:
+    class: App\Common\Stages\ApiRequestValidator
+    arguments:
+      - '@validator'

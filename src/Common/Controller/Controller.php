@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Common\Controller;
 
 use App\Common\Flow\FlowInterface;
+use App\Common\Response\ResponseInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request as HttpRequest;
 

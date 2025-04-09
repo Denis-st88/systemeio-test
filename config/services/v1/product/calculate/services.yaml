@@ -1,0 +1,5 @@
+services:
+  App\V1\Api\Request\Product\Calculate\Validator\TaxNumberValidator:
+    arguments:
+      - '@App\V1\Domain\Repository\TaxRulesRepositoryInterface'
+    tags: ['validator.constraint_validator']

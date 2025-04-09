@@ -14,7 +14,7 @@ class Calculate implements StageInterface
     public function __invoke($payload)
     {
         // @TODO PROCESS
-        dd($payload);
+        dd(777);
         die(__CLASS__);
     }
 }

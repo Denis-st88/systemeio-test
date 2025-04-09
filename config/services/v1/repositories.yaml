@@ -1,0 +1,9 @@
+services:
+  App\V1\Domain\Repository\TaxRulesRepositoryInterface:
+    alias: App\V1\Infr\Repository\TaxRulesRepository
+
+  App\V1\Infr\Repository\TaxRulesRepository:
+    arguments:
+      - '@Doctrine\Common\Persistence\ManagerRegistry'
+      - 'App\V1\Domain\TaxRules'
+    tags: [ 'doctrine.repository_service' ]

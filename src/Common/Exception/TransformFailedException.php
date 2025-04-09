@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\V1\Api\Request;
+namespace App\Common\Exception;
 
 class TransformFailedException extends \Exception
 {

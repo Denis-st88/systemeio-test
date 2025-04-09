@@ -9,6 +9,19 @@ Content-Type: application/json
   "couponCode": "D15"
 }
 
+### Response 400
+Content-Type: application/json
+
+{
+  "error": "Validation failed",
+  "details": [
+    {
+      "field": "Here will be field name",
+      "message": "Here will be error message"
+    }
+  ]
+}
+
 ### Execute Purchase
 POST http://127.0.0.1:8337/purchase
 Accept: application/json

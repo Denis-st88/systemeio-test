@@ -2,8 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Common\Request;
+namespace App\Common\Request\Transformer;
 
+use App\Common\Request\ApiRequestInterface;
 use League\Pipeline\StageInterface;
 use Symfony\Component\HttpFoundation\Request as HttpRequest;
 

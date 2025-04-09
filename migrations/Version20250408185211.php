@@ -17,14 +17,30 @@ final class Version20250408185211 extends AbstractMigration
     public function up(Schema $schema): void
     {
         $this->addSql('
-            CREATE TABLE product (id serial PRIMARY KEY, name VARCHAR(255) NOT NULL, price NUMERIC NOT NULL)
+            CREATE TABLE product (
+                id SERIAL PRIMARY KEY,
+                name VARCHAR(255) UNIQUE NOT NULL,
+                price NUMERIC NOT NULL
+            )
         ');
 
-        $this->addSql('CREATE UNIQUE INDEX product_name_unq ON product (name)');
+        $products = [
+            ['name' => 'Iphone', 'price' => 100],
+            ['name' => 'Наушники', 'price' => 20],
+            ['name' => 'Чехол', 'price' => 10]
+        ];
 
-        $this->addSql('
-            INSERT INTO product (name, price) VALUES (\'Iphone\', 100), (\'Наушники\', 20), (\'Чехол\', 10)
-        ');
+        foreach ($products as $product) {
+            $this->addSql('
+            INSERT INTO product (name, price)
+            VALUES
+            (:name, :price)',
+            [
+                'name' => $product['name'],
+                'price' => $product['price']
+            ]
+        );
+        }
     }
 
     public function down(Schema $schema): void

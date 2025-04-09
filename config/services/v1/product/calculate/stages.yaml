@@ -1,6 +1,6 @@
 services:
   app.v1.stages.calculate_price.transform_http_request_to_api_request:
-    class: App\Common\Request\HttpToApiRequestTransformer
+    class: App\Common\Request\Transformer\HttpToApiRequestTransformer
     arguments:
       - '@app.v1.calculate_price.http_to_api_request_transformer'
 

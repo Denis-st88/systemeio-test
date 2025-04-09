@@ -12,11 +12,24 @@ class Product
 {
     #[ORM\Id]
     #[ORM\Column(type: 'integer')]
-    #[ORM\GeneratedValue()]
-    protected int $id;
+    #[ORM\GeneratedValue]
+    private int $id;
 
-    #[ORM\Column(name: 'price', type: 'float', nullable: false)]
-    protected float $price;
+    #[ORM\Column(
+        name: 'name',
+        type: 'string',
+        length: 255,
+        unique: true,
+        nullable: false
+    )]
+    private int $name;
+
+    #[ORM\Column(
+        name: 'price',
+        type: 'float',
+        nullable: false
+    )]
+    private float $price;
 
     public function getId(): int
     {
@@ -26,6 +39,18 @@ class Product
     public function setId(int $id): self
     {
         $this->id = $id;
+
+        return $this;
+    }
+
+    public function getName(): int
+    {
+        return $this->name;
+    }
+
+    public function setName(int $name): self
+    {
+        $this->name = $name;
 
         return $this;
     }

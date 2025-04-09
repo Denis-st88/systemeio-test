@@ -1,0 +1,27 @@
+<?php
+
+declare(strict_types=1);
+
+namespace App\V1\Infr\Repository;
+
+use App\V1\Domain\Repository\TaxRulesRepositoryInterface;
+use App\V1\Domain\TaxRules;
+use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+
+final class TaxRulesRepository extends ServiceEntityRepository implements TaxRulesRepositoryInterface
+{
+    public function __construct(ManagerRegistry $doctrine)
+    {
+        parent::__construct($doctrine, TaxRules::class);
+    }
+
+    public function getTaxRulesByCountryCode(string $countryCode): ?TaxRules
+    {
+        return $this->createQueryBuilder('tax')
+            ->where('tax.countryCode = :countryCode')
+            ->setParameter('countryCode', $countryCode)
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
+}

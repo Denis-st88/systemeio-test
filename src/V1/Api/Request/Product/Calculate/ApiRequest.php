@@ -6,13 +6,21 @@ namespace App\V1\Api\Request\Product\Calculate;
 
 use App\Common\Request\ApiRequestInterface;
 use Symfony\Component\Validator\Constraints as Assert;
+use App\V1\Api\Request\Product\Calculate\Validator as AppAssert;
 
 class ApiRequest implements ApiRequestInterface
 {
-    #[Assert\NotBlank]
+    #[Assert\NotNull]
     #[Assert\Type('integer')]
     private int $product;
+
+    #[Assert\NotBlank]
+    #[AppAssert\TaxNumber]
+    #[Assert\Type('string')]
     private string $taxNumber;
+
+    #[Assert\NotBlank]
+    #[Assert\Type('string')]
     private string $couponCode;
 
     public function getProduct(): int

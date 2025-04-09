@@ -4,8 +4,9 @@ declare(strict_types=1);
 
 namespace App\V1\Api\Request;
 
+use App\Common\Exception\TransformFailedException;
 use App\Common\Request\ApiRequestInterface;
-use App\Common\Request\HttpToApiRequestTransformerInterface;
+use App\Common\Request\Transformer\HttpToApiRequestTransformerInterface;
 use Symfony\Component\HttpFoundation\Request as HttpRequest;
 use Symfony\Component\Serializer\Exception\ExceptionInterface;
 use Symfony\Component\Serializer\SerializerInterface;
@@ -34,7 +35,8 @@ readonly class HttpRequestTransformer implements HttpToApiRequestTransformerInte
             throw new TransformFailedException(
                 sprintf(
                     'An error was encountered during deserialization: %s',
-                    $e->getMessage())
+                    $e->getMessage()
+                )
             );
         }
     }
