@@ -5,7 +5,8 @@ declare(strict_types=1);
 namespace App\V1\Api\Request\Product;
 
 use App\Common\Request\ApiRequestInterface;
-use App\V1\Api\Request\Validator as AppAssert;
+use App\V1\Api\Request\Validator\TaxNumber\TaxNumber as TaxNumberAssert;
+use App\V1\Api\Request\Validator\Coupon\Coupon as CouponAssert;
 use Symfony\Component\Validator\Constraints as Assert;
 
 class ApiRequest implements ApiRequestInterface, CalculateProductRequestInterface
@@ -14,11 +15,12 @@ class ApiRequest implements ApiRequestInterface, CalculateProductRequestInterfac
     #[Assert\Type('integer')]
     private int $product;
 
+    #[TaxNumberAssert]
     #[Assert\NotBlank]
-    #[AppAssert\TaxNumber]
     #[Assert\Type('string')]
     private string $taxNumber;
 
+    #[CouponAssert]
     #[Assert\Type('string')]
     #[Assert\Length(min: 2)]
     #[Assert\NotBlank(allowNull: true)]

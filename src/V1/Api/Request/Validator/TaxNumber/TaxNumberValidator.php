@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\V1\Api\Request\Validator;
+namespace App\V1\Api\Request\Validator\TaxNumber;
 
 use App\V1\Domain\Repository\TaxRulesRepositoryInterface;
 use Doctrine\ORM\EntityNotFoundException;

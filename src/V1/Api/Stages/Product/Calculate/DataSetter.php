@@ -53,8 +53,12 @@ readonly class DataSetter implements StageInterface
         );
     }
 
-    private function getCoupon(string $couponCode): ?Coupon
+    private function getCoupon(?string $couponCode): ?Coupon
     {
+        if (!$couponCode) {
+            return null;
+        }
+
         $code = substr($couponCode, 0, 1);
         $discount = substr($couponCode, 1);
 
