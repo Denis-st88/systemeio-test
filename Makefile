@@ -33,8 +33,10 @@ console: ## Login in console.
 	${DC_EXEC} /bin/bash
 
 install: ## Install dependencies without running the whole application.
+	@cp .env.dist .env
 	${DC_RUN} composer install
 	${DC_RUN} composer migrate
+	${DC_RUN} composer test
 
 success-message:
 	@echo "You can now access the application at http://localhost:8337"

@@ -1,0 +1,9 @@
+actor: ApiTester
+modules:
+  enabled:
+    - Symfony:
+        kernel_class: App\Kernel
+        app_path: 'src/'
+        environment: test
+    - REST:
+        depends: Symfony

@@ -43,6 +43,10 @@ readonly class HttpRequestTransformer implements HttpToApiRequestTransformerInte
             ];
 
             throw (new TransformFailedException())->setErrors($errors);
+        } catch (\Exception $e) {
+            throw (new TransformFailedException())->setErrors([
+                'message' => $e->getMessage()
+            ]);
         }
     }
 }
