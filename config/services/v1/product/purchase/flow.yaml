@@ -1,0 +1,14 @@
+services:
+  app.v1.purchase.flow:
+    class: App\Common\Flow\Flow
+    arguments:
+      - '@app.v1.purchase.process'
+
+  app.v1.purchase.process:
+    class: League\Pipeline\Pipeline
+    arguments:
+      - ~
+      - '@app.v1.stages.purchase.transform_http_request_to_api_request'
+      - '@app.v1.stages.common.validate_api_request'
+      - '@app.v1.stages.purchase.make_payment'
+      - '@app.v1.stages.common.make_http_response'

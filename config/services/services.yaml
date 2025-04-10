@@ -4,7 +4,16 @@ services:
     arguments:
       - '@validator'
 
+  app.v1.common.tax_number_validator:
+    class: App\V1\Api\Request\Product\Calculate\Validator\TaxNumberValidator
+    arguments:
+      - '@App\V1\Domain\Repository\TaxRulesRepositoryInterface'
+    tags: [ 'validator.constraint_validator' ]
+
   app.v1.stages.common.make_http_response:
     class: App\Common\Response\Transformer\ApiToHttpResponseTransformer
     arguments:
       - '@serializer'
+
+  app.v1.common.calculator:
+    class: App\V1\Api\Calculator\Calculator

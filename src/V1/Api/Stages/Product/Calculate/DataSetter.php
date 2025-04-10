@@ -4,9 +4,7 @@ declare(strict_types=1);
 
 namespace App\V1\Api\Stages\Product\Calculate;
 
-use App\Common\Response\ApiResponseInterface;
-use App\V1\Api\Request\Product\Calculate\ApiRequest;
-use App\V1\Api\Response\Product\Calculate\Response;
+use App\V1\Api\Request\Product\CalculateProductRequestInterface;
 use App\V1\Domain\Coupon;
 use App\V1\Domain\Product;
 use App\V1\Domain\Repository\CouponRepositoryInterface;
@@ -15,7 +13,7 @@ use App\V1\Domain\Repository\TaxRulesRepositoryInterface;
 use App\V1\Domain\TaxRules;
 use League\Pipeline\StageInterface;
 
-readonly class Calculate implements StageInterface
+readonly class DataSetter implements StageInterface
 {
     public function __construct(
         private TaxRulesRepositoryInterface $taxRulesRepository,
@@ -25,23 +23,22 @@ readonly class Calculate implements StageInterface
     }
 
     /**
-     * @param ApiRequest $payload
+     * @param CalculateProductRequestInterface $payload
      */
-    public function __invoke($payload): ApiResponseInterface
+    public function __invoke($payload): CalculatorDataInterface
     {
-        $product = $this->getProduct($payload->getProduct());
-        $taxRule = $this->getTaxRule($payload->getTaxNumber());
-        $coupon = $this->getCoupon($payload->getCouponCode());
-
-        $priceWithTax = $product->getPrice() * (1 + $taxRule->getTaxRate() / 100);
-
-        if ($coupon) {
-            $priceWithTax = $coupon->getType() === 'fix' ?
-                $priceWithTax - $coupon->getDiscount() :
-                $priceWithTax * (1 - $coupon->getDiscount() / 100);
+        if (!$payload instanceof CalculateProductRequestInterface) {
+            throw new \LogicException(sprintf(
+                'Class %s must implement %s',
+                $payload::class,
+                CalculateProductRequestInterface::class
+            ));
         }
 
-        return (new Response())->setPrice(round($priceWithTax, 2));
+        return (new Data())
+            ->setProduct($this->getProduct($payload->getProduct()))
+            ->setTaxRules($this->getTaxRule($payload->getTaxNumber()))
+            ->setCoupon($this->getCoupon($payload->getCouponCode()));
     }
 
     private function getProduct(int $id): Product

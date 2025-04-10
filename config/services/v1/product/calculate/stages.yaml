@@ -4,9 +4,14 @@ services:
     arguments:
       - '@app.v1.calculate_price.http_to_api_request_transformer'
 
-  app.v1.stages.calculate_price.do_calculate:
-    class: App\V1\Api\Stages\Product\Calculate\Calculate
+  app.v1.stages.calculate_price.set_data:
+    class: App\V1\Api\Stages\Product\Calculate\DataSetter
     arguments:
       - '@App\V1\Domain\Repository\TaxRulesRepositoryInterface'
       - '@App\V1\Domain\Repository\CouponRepositoryInterface'
       - '@App\V1\Domain\Repository\ProductRepositoryInterface'
+
+  app.v1.stages.calculate_price.calculate_invoker:
+    class: App\V1\Api\Stages\Product\Calculate\CalculateInvoker
+    arguments:
+      - '@app.v1.common.calculator'

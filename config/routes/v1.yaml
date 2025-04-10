@@ -4,3 +4,10 @@ app.calculate_price:
         _controller: app.v1.controller.calculate_price::index
     }
     methods: [ POST ]
+
+app.purchase:
+  path: /purchase
+  defaults: {
+    _controller: app.v1.controller.purchase::index
+  }
+  methods: [ POST ]

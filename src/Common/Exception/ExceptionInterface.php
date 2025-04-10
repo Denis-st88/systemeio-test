@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Common\Exception;
 
-interface ValidationExceptionInterface
+interface ExceptionInterface
 {
     /**
      * @return array<string, string>
@@ -14,5 +14,5 @@ interface ValidationExceptionInterface
     /**
      * @param array<string, string> $errors
      */
-    public function setErrors(array $errors): ValidationExceptionInterface;
+    public function setErrors(array $errors): ExceptionInterface;
 }

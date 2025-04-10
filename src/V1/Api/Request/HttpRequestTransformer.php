@@ -5,11 +5,9 @@ declare(strict_types=1);
 namespace App\V1\Api\Request;
 
 use App\Common\Exception\TransformFailedException;
-use App\Common\Exception\ValidationException;
 use App\Common\Request\ApiRequestInterface;
 use App\Common\Request\Transformer\HttpToApiRequestTransformerInterface;
 use Symfony\Component\HttpFoundation\Request as HttpRequest;
-use Symfony\Component\Serializer\Exception\ExceptionInterface;
 use Symfony\Component\Serializer\Exception\NotNormalizableValueException;
 use Symfony\Component\Serializer\SerializerInterface;
 
@@ -24,7 +22,6 @@ readonly class HttpRequestTransformer implements HttpToApiRequestTransformerInte
 
     /**
      * @throws TransformFailedException
-     * @throws ValidationException
      */
     public function transform(HttpRequest $httpRequest): ApiRequestInterface
     {
@@ -45,14 +42,7 @@ readonly class HttpRequestTransformer implements HttpToApiRequestTransformerInte
                 )
             ];
 
-            throw (new ValidationException())->setErrors($errors);
-        } catch (ExceptionInterface $e) {
-            throw new TransformFailedException(
-                sprintf(
-                    'An error was encountered during deserialization: %s',
-                    $e->getMessage()
-                )
-            );
+            throw (new TransformFailedException())->setErrors($errors);
         }
     }
 }

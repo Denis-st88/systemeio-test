@@ -10,5 +10,6 @@ services:
       - ~
       - '@app.v1.stages.calculate_price.transform_http_request_to_api_request'
       - '@app.v1.stages.common.validate_api_request'
-      - '@app.v1.stages.calculate_price.do_calculate'
+      - '@app.v1.stages.calculate_price.set_data'
+      - '@app.v1.stages.calculate_price.calculate_invoker'
       - '@app.v1.stages.common.make_http_response'
