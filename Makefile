@@ -34,6 +34,7 @@ console: ## Login in console.
 
 install: ## Install dependencies without running the whole application.
 	${DC_RUN} composer install
+	${DC_RUN} composer migrate
 
 success-message:
 	@echo "You can now access the application at http://localhost:8337"
