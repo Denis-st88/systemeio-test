@@ -10,6 +10,7 @@ use App\V1\Api\Payment\PaymentProcessAbstractFactory;
 use App\V1\Api\Payment\PaymentProcessException;
 use App\V1\Api\Request\Product\Purchase\ApiRequest;
 use App\V1\Api\Response\Product\Purchase\Response;
+use App\V1\Api\Stages\Product\Calculate\CalculatorDataInterface;
 use League\Pipeline\StageInterface;
 
 readonly class MakePayment implements StageInterface
@@ -27,8 +28,14 @@ readonly class MakePayment implements StageInterface
      */
     public function __invoke($payload): ApiResponseInterface
     {
+        /** @var CalculatorDataInterface $data */
+        $data = ($this->calculatorDataSetter)($payload);
+
         $price = $this->calculator->calculate(
-            ($this->calculatorDataSetter)($payload)
+            $data->getProduct()->getPrice(),
+            $data->getTaxRules()->getTaxRate(),
+            $data->getCoupon()?->getDiscount(),
+            $data->getCoupon()?->getType()
         );
 
         $paymentProcess = (new PaymentProcessAbstractFactory(

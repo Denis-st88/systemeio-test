@@ -16,20 +16,23 @@ final class Version20250409083046 extends AbstractMigration
 
     public function up(Schema $schema): void
     {
+        $this->addSql('DROP TYPE IF EXISTS coupon_type CASCADE');
+        $this->addSql('CREATE TYPE coupon_type AS ENUM (\'fix\', \'percent\')');
+
         $this->addSql('
             CREATE TABLE coupon (
                 id SERIAL PRIMARY KEY,
                 code CHAR(1) NOT NULL,
-                type VARCHAR(100) NOT NULL,
+                type coupon_type NOT NULL,
                 discount NUMERIC(5,2) NOT NULL
             )
         ');
 
         $coupons = [
-            ['code' => 'P', 'type' => 'fix', 'discount' => 100],
-            ['code' => 'P', 'type' => 'percent', 'discount' => 10],
-            ['code' => 'P', 'type' => 'fix', 'discount' => 100],
+            ['code' => 'F', 'type' => 'fix', 'discount' => 10],
             ['code' => 'P', 'type' => 'percent', 'discount' => 20],
+            ['code' => 'F', 'type' => 'fix', 'discount' => 5],
+            ['code' => 'P', 'type' => 'percent', 'discount' => 30],
         ];
 
         foreach ($coupons as $coupon) {
@@ -48,6 +51,7 @@ final class Version20250409083046 extends AbstractMigration
 
     public function down(Schema $schema): void
     {
+        $this->addSql('DROP TYPE IF EXISTS coupon_type CASCADE');
         $this->addSql('DROP TABLE coupon');
     }
 }

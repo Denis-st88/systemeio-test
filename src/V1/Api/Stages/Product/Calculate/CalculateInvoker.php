@@ -20,9 +20,13 @@ readonly class CalculateInvoker implements StageInterface
      */
     public function __invoke($payload): ApiResponseInterface
     {
-        $price = $this->calculator->calculate($payload);
+        $price = $this->calculator->calculate(
+            $payload->getProduct()->getPrice(),
+            $payload->getTaxRules()->getTaxRate(),
+            $payload->getCoupon()?->getDiscount(),
+            $payload->getCoupon()?->getType()
+        );
 
-        return (new Response())
-            ->setPrice(round($price));
+        return (new Response())->setPrice($price);
     }
 }

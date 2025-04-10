@@ -21,14 +21,14 @@ class CalculatePriceCest
             [
                 'product' => 1,
                 'taxNumber' => 'DE123456789',
-                'couponCode' => 'P10'
+                'couponCode' => 'P20'
             ]
         );
 
         $tester->seeResponseCodeIs(HttpCode::OK);
 
         $tester->seeResponseMatchesJsonType([
-            'price' => 'integer:>=0'
+            'price' => 'float:>=0'
         ]);
     }
 
@@ -39,7 +39,7 @@ class CalculatePriceCest
             [
                 'product' => 1,
                 'taxNumber' => 'DE123',
-                'couponCode' => 'P10'
+                'couponCode' => 'P20'
             ]
         );
 
@@ -60,7 +60,7 @@ class CalculatePriceCest
             [
                 'product' => 1,
                 'taxNumber' => 'FAKE123456789',
-                'couponCode' => 'P10'
+                'couponCode' => 'P30'
             ]
         );
 
@@ -81,7 +81,7 @@ class CalculatePriceCest
             [
                 'product' => 1,
                 'taxNumber' => null,
-                'couponCode' => 'P10'
+                'couponCode' => 'P20'
             ]
         );
 
@@ -123,7 +123,7 @@ class CalculatePriceCest
             [
                 'product' => 777,
                 'taxNumber' => 'DE123456789',
-                'couponCode' => 'P10'
+                'couponCode' => 'P30'
             ]
         );
 
