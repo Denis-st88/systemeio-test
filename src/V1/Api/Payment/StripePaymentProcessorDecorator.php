@@ -27,7 +27,7 @@ readonly class StripePaymentProcessorDecorator implements PaymentProcessorInterf
         }
 
         if (!$result) {
-            throw new PaymentProcessException('Price must be less then 100');
+            throw new PaymentProcessException('Price must be bigger then 100');
         }
     }
 }

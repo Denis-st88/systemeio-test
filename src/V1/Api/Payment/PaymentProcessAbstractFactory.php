@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\V1\Api\Payment;
 
+use App\V1\Api\Enum\PaymentType;
 use Systemeio\TestForCandidates\PaymentProcessor\PaypalPaymentProcessor;
 use Systemeio\TestForCandidates\PaymentProcessor\StripePaymentProcessor;
 
@@ -14,8 +15,8 @@ class PaymentProcessAbstractFactory
     public function __construct(string $type)
     {
         $this->paymentProcessor = match ($type) {
-            'paypal' => $this->getPaypalPaymentProcessor(),
-            'stripe' => $this->getStripePaymentProcessor(),
+            PaymentType::Paypal->value => $this->getPaypalPaymentProcessor(),
+            PaymentType::Stripe->value => $this->getStripePaymentProcessor(),
             default => throw new \LogicException(sprintf(
                 'Unsupported payment processor type "%s"',
                 $type
