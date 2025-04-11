@@ -27,7 +27,8 @@ final class Version20250408185211 extends AbstractMigration
         $products = [
             ['name' => 'Iphone', 'price' => 100],
             ['name' => 'Наушники', 'price' => 20],
-            ['name' => 'Чехол', 'price' => 10]
+            ['name' => 'Чехол', 'price' => 10],
+            ['name' => 'Колонки', 'price' => 100010],
         ];
 
         foreach ($products as $product) {

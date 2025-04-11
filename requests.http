@@ -150,7 +150,7 @@ Content-Type: application/json
 
 ###
 
-### ❌ Calculate Price - invalid product
+### ❌ Calculate Price - invalid product id
 POST http://127.0.0.1:8337/api/v1/calculate-price
 Accept: application/json
 Content-Type: application/json
@@ -168,3 +168,131 @@ Content-Type: application/json
 # }
 
 ###
+
+### ✅ Purchase - valid request, payment type "paypal"
+POST http://127.0.0.1:8337/api/v1/purchase
+Accept: application/json
+Content-Type: application/json
+
+{
+    "product": 1,
+    "taxNumber": "DE123456789",
+    "couponCode": "P30",
+    "paymentProcessor": "paypal"
+}
+
+### 🔁 Expected Response 200
+# Status: 200 OK
+# {
+#    "code": "SUCCESS"
+# }
+
+###
+
+### ✅ Purchase - valid request, payment type "stripe"
+POST http://127.0.0.1:8337/api/v1/purchase
+Accept: application/json
+Content-Type: application/json
+
+{
+    "product": 1,
+    "taxNumber": "DE123456789",
+    "couponCode": "F5",
+    "paymentProcessor": "stripe"
+}
+
+### 🔁 Expected Response 200
+# Status: 200 OK
+# {
+#    "code": "SUCCESS"
+# }
+
+###
+
+### ✅ Purchase - invalid request, invalid payment type "incorrect"
+POST http://127.0.0.1:8337/api/v1/purchase
+Accept: application/json
+Content-Type: application/json
+
+{
+    "product": 1,
+    "taxNumber": "DE123456789",
+    "couponCode": "F5",
+    "paymentProcessor": "incorrect"
+}
+
+### 🔁 Expected Response 400
+# Status: 400 Bad Request
+# {
+#    "errors": [
+#        {
+#            "field": "paymentProcessor",
+#            "message": "Invalid value \"incorrect\". Please select one of the following types: \"paypal\", \"stripe\"."
+#        }
+#    ]
+# }
+
+###
+
+### ✅ Purchase - invalid request, payment type "stripe", error "price < 100"
+POST http://127.0.0.1:8337/api/v1/purchase
+Accept: application/json
+Content-Type: application/json
+
+{
+    "product": 1,
+    "taxNumber": "DE123456789",
+    "couponCode": "P30",
+    "paymentProcessor": "stripe"
+}
+
+### 🔁 Expected Response 422
+# Status: 422 Unprocessable Content
+# {
+#    "message": "Price must be bigger then 100"
+# }
+
+###
+
+### ✅ Purchase - invalid request, payment type "paypal", error "price > 100 000"
+POST http://127.0.0.1:8337/api/v1/purchase
+Accept: application/json
+Content-Type: application/json
+
+{
+    "product": 4,
+    "taxNumber": "DE123456789",
+    "couponCode": "F5",
+    "paymentProcessor": "paypal"
+}
+
+### 🔁 Expected Response 422
+# Status: 422 Unprocessable Content
+# {
+#    "message": "Failed to make a payment. Msg: [#14271] Transaction \"c82711ca-7e67-41c8-9f35-5b965e645d12\" failed: Too high price"
+# }
+
+###
+
+### ✅ Purchase - invalid request, payment type null
+POST http://127.0.0.1:8337/api/v1/purchase
+Accept: application/json
+Content-Type: application/json
+
+{
+    "product": 4,
+    "taxNumber": "DE123456789",
+    "couponCode": "F5",
+    "paymentProcessor": null
+}
+
+### 🔁 Expected Response 422
+# Status: 422 Unprocessable Content
+# {
+#    "errors": [
+#        {
+#            "field": "paymentProcessor",
+#            "message": "The type of the \"paymentProcessor\" must be one of types \"string\" (null given)"
+#       }
+#    ]
+# }
