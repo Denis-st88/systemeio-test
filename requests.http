@@ -1,4 +1,4 @@
-### Calculate Price
+### ✅ Calculate Price - valid request, with couponCode
 POST http://127.0.0.1:8337/api/v1/calculate-price
 Accept: application/json
 Content-Type: application/json
@@ -6,53 +6,165 @@ Content-Type: application/json
 {
   "product": 1,
   "taxNumber": "DE123456789",
-  "couponCode": "D15"
+  "couponCode": "P20"
 }
 
-### Expected 200 OK
-# Example response:
+### 🔁 Expected Response 200
+# Status: 200 OK
 # {
-#   "price": 100
+#   "price": 95.2
 # }
 
 ###
 
-### Response 400
-# Example response:
-# HTTP/1.1 400 Bad Request
-# Content-Type: application/json
-#
-# {
-#   "error": "Validation failed",
-#   "details": [
-#     {
-#       "field": "taxNumber",
-#       "message": "Invalid tax number format"
-#     }
-#   ]
-# }
-
-###
-
-### Response 404
-# Example response:
-# HTTP/1.1 404 Not Found
-# Content-Type: application/json
-#
-# {
-#   "message": "Product entity id \"1\" not found."
-# }
-
-###
-
-### Execute Purchase
-POST http://127.0.0.1:8337/api/v1/purchase
+### ✅ Calculate Price - valid request, without couponCode
+POST http://127.0.0.1:8337/api/v1/calculate-price
 Accept: application/json
 Content-Type: application/json
 
 {
-  "product": 1,
-  "taxNumber": "IT12345678900",
-  "couponCode": "D15",
-  "paymentProcessor": "paypal"
+    "product": 1,
+    "taxNumber": "DE123456789",
+    "couponCode": null
 }
+
+### 🔁 Expected Response 200
+# Status: 200 OK
+# {
+#    "price": 119
+# }
+
+###
+
+### ✅ Calculate Price - valid request, coupon type "fix" (10 EUR)
+POST http://127.0.0.1:8337/api/v1/calculate-price
+Accept: application/json
+Content-Type: application/json
+
+{
+    "product": 3,
+    "taxNumber": "DE123456789",
+    "couponCode": "F10"
+}
+
+### 🔁 Expected Response 200
+# Status: 200 OK
+# {
+#    "price": 1.9
+# }
+
+###
+
+### ✅ Calculate Price - valid request, coupon type "percent" (30 %)
+POST http://127.0.0.1:8337/api/v1/calculate-price
+Accept: application/json
+Content-Type: application/json
+
+{
+    "product": 3,
+    "taxNumber": "DE123456789",
+    "couponCode": "P30"
+}
+
+### 🔁 Expected Response 200
+# Status: 200 OK
+# {
+#    "price": 8.33
+# }
+
+###
+
+### ❌ Calculate Price - invalid taxNumber
+POST http://127.0.0.1:8337/api/v1/calculate-price
+Accept: application/json
+Content-Type: application/json
+
+{
+    "product": 1,
+    "taxNumber": "DE123",
+    "couponCode": "P20"
+}
+
+### 🔁 Expected Response 400
+# Status: 400 Bad Request
+# {
+#    "errors": [
+#        {
+#            "field": "taxNumber",
+#            "message": "Invalid tax number."
+#        }
+#    ]
+# }
+
+###
+
+### ❌ Calculate Price - invalid taxNumber type
+POST http://127.0.0.1:8337/api/v1/calculate-price
+Accept: application/json
+Content-Type: application/json
+
+{
+    "product": 1,
+    "taxNumber": null,
+    "couponCode": "P20"
+}
+
+### 🔁 Expected Response 422
+# Status: 422 Unprocessable Content
+# {
+#    "errors": [
+#        {
+#            "field": "taxNumber",
+#            "message": "The type of the \"taxNumber\" must be one of types \"string\" (null given)"
+#        }
+#    ]
+# }
+
+###
+
+### ❌ Calculate Price - invalid couponCode
+POST http://127.0.0.1:8337/api/v1/calculate-price
+Accept: application/json
+Content-Type: application/json
+
+{
+    "product": 1,
+    "taxNumber": "DE123456789",
+    "couponCode": "P"
+}
+
+### 🔁 Expected Response 400
+# Status: 400 Bad Request
+# {
+#    "errors": [
+#        {
+#            "field": "couponCode",
+#            "message": "The coupon \"P\" does not exist"
+#        },
+#        {
+#            "field": "couponCode",
+#            "message": "This value is too short. It should have 2 characters or more."
+#        }
+#    ]
+# }
+
+###
+
+### ❌ Calculate Price - invalid product
+POST http://127.0.0.1:8337/api/v1/calculate-price
+Accept: application/json
+Content-Type: application/json
+
+{
+    "product": 777,
+    "taxNumber": "DE123456789",
+    "couponCode": "F5"
+}
+
+### 🔁 Expected Response 404
+# Status: 404 Not found
+# {
+#    "message": "Product entity id \"777\" not found."
+# }
+
+###
