@@ -7,7 +7,7 @@
 make init
 ```
 
-## Эндпоинты:
+## Эндпоинты
 POST: для расчёта цены
 http://127.0.0.1:8337/api/v1/calculate-price
 
