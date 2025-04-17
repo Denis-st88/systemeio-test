@@ -6,12 +6,14 @@ namespace App\V1\Api\Stages\Product\Purchase;
 
 use App\Common\Response\ApiResponseInterface;
 use App\V1\Api\Calculator\CalculatorInterface;
-use App\V1\Api\Payment\PaymentProcessAbstractFactory;
 use App\V1\Api\Payment\PaymentProcessException;
+use App\V1\Api\Payment\PaymentProcessorFactory;
 use App\V1\Api\Request\Product\Purchase\ApiRequest;
 use App\V1\Api\Response\Product\Purchase\Response;
 use App\V1\Api\Stages\Product\Calculate\CalculatorDataInterface;
 use League\Pipeline\StageInterface;
+use Systemeio\TestForCandidates\PaymentProcessor\PaypalPaymentProcessor;
+use Systemeio\TestForCandidates\PaymentProcessor\StripePaymentProcessor;
 
 readonly class MakePayment implements StageInterface
 {
@@ -38,9 +40,10 @@ readonly class MakePayment implements StageInterface
             $data->getCoupon()?->getType()
         );
 
-        $paymentProcess = (new PaymentProcessAbstractFactory(
-            $payload->getPaymentProcessor()
-        ))->create();
+        $paymentProcess = (new PaymentProcessorFactory(
+            new PaypalPaymentProcessor,
+            new StripePaymentProcessor
+        ))->create($payload->getPaymentProcessor());
 
         try {
             $paymentProcess->pay($price);

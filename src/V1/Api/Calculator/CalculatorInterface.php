@@ -7,9 +7,9 @@ namespace App\V1\Api\Calculator;
 interface CalculatorInterface
 {
     public function calculate(
-        float $price,
+        int $price,
         float $taxRate,
         ?float $discount = null,
         ?string $discountType = null,
-    ): float;
+    ): int;
 }

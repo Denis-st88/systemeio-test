@@ -26,10 +26,10 @@ class Product
 
     #[ORM\Column(
         name: 'price',
-        type: 'float',
+        type: 'integer',
         nullable: false
     )]
-    private float $price;
+    private int $price;
 
     public function getId(): int
     {
@@ -55,12 +55,12 @@ class Product
         return $this;
     }
 
-    public function getPrice(): float
+    public function getPrice(): int
     {
         return $this->price;
     }
 
-    public function setPrice(float $price): self
+    public function setPrice(int $price): self
     {
         $this->price = $price;
 

@@ -9,37 +9,37 @@ use App\V1\Api\Enum\CouponType;
 class Calculator implements CalculatorInterface
 {
     public function calculate(
-        float $price,
+        int $price,
         float $taxRate,
         ?float $discount = null,
         ?string $discountType = null,
-    ): float
+    ): int
     {
-        $priceWithTax = $price * (1 + $taxRate / 100);
+        $priceWithTax = (int) round($price * (1 + $taxRate / 100));
 
-        if ($discount && $discountType) {
-            $priceWithTax = $this->calculateDiscount(
-                $priceWithTax,
-                $discount,
-                $discountType
-            );
+        if ($discount !== null && $discountType !== null) {
+            $priceWithTax = $this->applyDiscount($priceWithTax, $discount, $discountType);
         }
 
-        return round($priceWithTax, 2);
+        return $priceWithTax;
     }
 
-    private function calculateDiscount(
-        float $priceWithTax,
+    private function applyDiscount(
+        int $priceWithTax,
         float $discount,
         string $discountType,
-    ): float
+    ): int
     {
-        if ($discountType === CouponType::Fix->value && $discount < $priceWithTax) {
-            return $priceWithTax - $discount;
+        if ($discountType === CouponType::Fix->value) {
+            $discount = (int) round($discount * 100);
+
+            if ($discount < $priceWithTax) {
+                return $priceWithTax - $discount;
+            }
         }
 
         if ($discountType === CouponType::Percent->value && $discount < 100) {
-            return $priceWithTax * (1 - $discount / 100);
+            return (int) round($priceWithTax * (1 - $discount / 100));
         }
 
         return $priceWithTax;

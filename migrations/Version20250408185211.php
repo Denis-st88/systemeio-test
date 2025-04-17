@@ -20,7 +20,7 @@ final class Version20250408185211 extends AbstractMigration
             CREATE TABLE product (
                 id SERIAL PRIMARY KEY,
                 name VARCHAR(255) UNIQUE NOT NULL,
-                price NUMERIC NOT NULL CHECK (price > 0)
+                price NUMERIC(10, 2) NOT NULL CHECK (price > 0)
             )
         ');
 

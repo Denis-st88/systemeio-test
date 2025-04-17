@@ -21,7 +21,7 @@ class PriceCalculatorTest extends Unit
      */
     public function testCalculatePrice(
         float $expected,
-        float $price,
+        int $price,
         float $taxRate,
         ?float $discount = null,
         ?string $discountType = null

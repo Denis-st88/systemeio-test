@@ -9,5 +9,5 @@ interface PaymentProcessorInterface
     /**
      * @throws PaymentProcessException
      */
-    public function pay(float $price): void;
+    public function pay(int $price): void;
 }
